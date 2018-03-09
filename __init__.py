@@ -52,7 +52,7 @@ def test():
 def get_location(req,res):
 
     week_day_dict = {'0':'MON', '1':'TUE', '2':'WED', '3':'THU', '4':'FRI', '5':'SAT', '6':'SUN'}
-    week_day = week_day_dict[datetime.datetime.today().weekday()]
+    week_day = week_day_dict[str(datetime.datetime.today().weekday())]
 
     course_id = req.get("result").get("parameters").get("course-name")
     conn = mysql.connect()
