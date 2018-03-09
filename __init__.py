@@ -44,6 +44,8 @@ def test():
         res = get_location(req,res)
     elif intent_name == "exam-timings":
         res = get_exam_timings(req,res)
+    elif intent_name == "timings-nfl-class":
+        res = get_class_timings_nfl()
 
     print("Response:")
     res = json.dumps(res, indent=4)
@@ -55,6 +57,52 @@ def test():
 def get_week_day():
     week_day_dict = {'0':'MON', '1':'TUE', '2':'WED', '3':'THU', '4':'FRI', '5':'SAT', '6':'SUN'}
     return week_day_dict[str(datetime.datetime.today().weekday())]
+
+def get_class_timings_nfl(req,res):
+    week_day = get_week_day()
+
+    nfl = req.get("result").get("parameters").get("time")
+
+    student_list{    
+        '1338471136207322': '160101076',
+        '1653617614727730': '150101031'
+    }
+
+    sender_id = req.get("originalRequest").get("data").get("sender").get("id")
+
+    roll_no = student_list[sender_id]
+    hour = datetime.datetime.now().hour % 12
+
+    hour = str(hour)
+    hour = "{0:0>2}".format(hour)
+    hour = hour + ":00:00"
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    if nfl == "first" OR "First": 
+        query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \""MON"\" ORDER BY start_time LIMIT 1"
+    elif nfl == "last" OR "Last":
+        query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \""MON"\" ORDER BY start_time DESC LIMIT 1"
+    elif nfl = "next" OR "Next":
+        query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \""MON"\" AND start_time > \""+hour+"\"ORDER BY start_time LIMIT 1"
+
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+    # data = data[0][0]
+    print(data)
+    data = data[0]
+    # out_list = json.dumps(data)
+    out_string = "You have " + data[0] + " from " + data[1] + " in " + data[2]
+
+    return {
+        "speech": out_string,
+        "displayText": out_string,
+        #"data": {},
+        # "contextOut": [],
+        "source": "IITG-Student-Buddy"
+    }
 
 def get_location(req,res):
 
@@ -69,7 +117,7 @@ def get_location(req,res):
     cursor.execute(query)
 
     data = cursor.fetchall()
-    data = data[0][0]
+    data = data[0]
 
     out_string = json.dumps(data)
     out_string = "The Class is in " + out_string
@@ -81,8 +129,6 @@ def get_location(req,res):
         # "contextOut": [],
         "source": "IITG-Student-Buddy"
     }
-
-import datetime
 
 def get_exam_timings(req,res):
 
