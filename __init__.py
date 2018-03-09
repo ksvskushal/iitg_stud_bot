@@ -61,6 +61,8 @@ def get_week_day():
 def get_class_timings_nfl(req,res):
     week_day = get_week_day()
 
+    week_day = "TUE"
+
     nfl = req.get("result").get("parameters").get("time")
 
     student_list = {    
