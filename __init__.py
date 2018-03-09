@@ -80,11 +80,11 @@ def get_class_timings_nfl(req,res):
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    if nfl == "first" OR "First": 
+    if nfl == "first" or "First": 
         query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \""MON"\" ORDER BY start_time LIMIT 1"
-    elif nfl == "last" OR "Last":
+    elif nfl == "last" or "Last":
         query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \""MON"\" ORDER BY start_time DESC LIMIT 1"
-    elif nfl = "next" OR "Next":
+    elif nfl = "next" or "Next":
         query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \""MON"\" AND start_time > \""+hour+"\"ORDER BY start_time LIMIT 1"
 
     cursor.execute(query)
