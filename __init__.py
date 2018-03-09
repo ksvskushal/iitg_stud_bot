@@ -52,7 +52,7 @@ def test():
 def get_location(req,res):
 
     week_day_dict = {'0':'MON', '1':'TUE', '2':'WED', '3':'THU', '4':'FRI', '5':'SAT', '6':'SUN'}
-    week_day = week_days[datetime.datetime.today().weekday()]
+    week_day = week_day_dict[datetime.datetime.today().weekday()]
 
     course_id = req.get("result").get("parameters").get("course-name")
     conn = mysql.connect()
@@ -73,7 +73,7 @@ def get_location(req,res):
         # "contextOut": [],
         "source": "IITG-Student-Buddy"
     }
-    
+
 if __name__ == "__main__":
     port = int(os.getenv('PORT', 5000))
     print "Starting app on port %d" % port
