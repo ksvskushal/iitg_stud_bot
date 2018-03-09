@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 
+import datetime
 import urllib
+import httplib
 import json
 import os
 
-
 from flask import Flask,request,make_response
 from flaskext.mysql import MySQL
-import httplib, urllib, json
-import os
 from collections import defaultdict
 
 mysql= MySQL()
@@ -28,13 +27,24 @@ def hello():
 
 @app.route("/webhook", methods=['POST'])
 def test():
+    req = request.get_json(silent=True, force=True)
+
+    print("Request:")
+    input = json.dumps(req, indent=4)
+    print (input)
+
     res = {
-    	"speech": "Hello from the other side Bitch !",
-        "displayText": "Hello from the other side Bitch !",
-        "source": "IITG Student Buddy"
+        "speech": "Failed!",
+        "displayText": "Failed!"
+        "source": "IITG-Student-Buddy"
     }
-    print request
+
+    if req.get("result").get("action")=="specific-course-location":
+        res = get_location(req,res)
+
+    print("Response:")
     res = json.dumps(res, indent=4)
+    print (res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
@@ -44,13 +54,18 @@ if __name__ == "__main__":
     print "Starting app on port %d" % port
     app.run(debug=True, port=port, host='0.0.0.0')
 
-def get_latest():
+def get_location(req,res):
 
+    week_day_dict = {'0':'MON', '1':'TUE', '2':'WED', '3':'THU', '4':'FRI', '5':'SAT', '6':'SUN'}
+    week_day = week_days[datetime.datetime.today().weekday()]
+
+    course_id = req.get("result").get("parameters").get("course-name")
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    query_1 = "SELECT * FROM doc_data ORDER BY id DESC LIMIT 0, 1;"
-    cursor.execute(query_1)
+    query = "SELECT room_number FROM ScheduledIn WHERE course_id = \"" + course_id + "\" AND day = \"" + week_day + "\";"
+
+    cursor.execute(query)
 
     data = cursor.fetchall()
 
@@ -61,5 +76,5 @@ def get_latest():
         "displayText": stri,
         #"data": {},
         # "contextOut": [],
-        "source": "chitra"
+        "source": "IITG-Student-Buddy"
     }
