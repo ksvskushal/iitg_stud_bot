@@ -63,7 +63,7 @@ def get_class_timings_nfl(req,res):
 
     nfl = req.get("result").get("parameters").get("time")
 
-    student_list{    
+    student_list = {    
         '1338471136207322': '160101076',
         '1653617614727730': '150101031'
     }
