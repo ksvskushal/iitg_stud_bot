@@ -45,7 +45,7 @@ def test():
     elif intent_name == "exam-timings":
         res = get_exam_timings(req,res)
     elif intent_name == "timings-nfl-class":
-        res = get_class_timings_nfl()
+        res = get_class_timings_nfl(req,res)
 
     print("Response:")
     res = json.dumps(res, indent=4)
