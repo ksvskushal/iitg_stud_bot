@@ -39,7 +39,7 @@ def test():
         "source": "IITG-Student-Buddy"
     }
 
-    if req.get("result").get("action")=="specific-course-location":
+    if req.get("result").get("metadata").get("intentName")=="specific-course-location":
         res = get_location(req,res)
 
     print("Response:")
