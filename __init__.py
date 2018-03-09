@@ -63,12 +63,14 @@ def get_location(req,res):
     cursor.execute(query)
 
     data = cursor.fetchall()
+    data = data[0][0]
 
-    stri = json.dumps(data)
+    out_string = json.dumps(data)
+    out_string = "The Class is in " + out_string
 
     return {
-        "speech": stri,
-        "displayText": stri,
+        "speech": out_string,
+        "displayText": out_string,
         #"data": {},
         # "contextOut": [],
         "source": "IITG-Student-Buddy"
