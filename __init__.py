@@ -26,9 +26,9 @@ mysql.init_app(app)
 def hello():
     return "Hello, I love Digital Ocean!"
 
-@app.route("/vivek")
-def vivek():
-    return "Hey! This is Vivek ;D!"
+@app.route("/PrivacyPolicy")
+def privacy():
+    return "This is a project by the students of IITG coding club.\nNo data is collected or sold by the usage of this application."
 
 
 @app.route("/webhook", methods=['POST'])
