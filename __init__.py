@@ -176,11 +176,11 @@ def get_specific_course_time(req,res):
     if nfl == "first": 
         query = "SELECT start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND course_id = \"" + course_id + "\" AND day = \"" + week_day+ "\" ORDER BY start_time LIMIT 1;"
     elif nfl == "last":
-        query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND course_id = \"" + course_id + "\" AND day = \"" + week_day+ "\" ORDER BY start_time DESC LIMIT 1;"
+        query = "SELECT start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND course_id = \"" + course_id + "\" AND day = \"" + week_day+ "\" ORDER BY start_time DESC LIMIT 1;"
     elif nfl == "next":
-        query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND course_id = \"" + course_id + "\" AND day = \"" + week_day+ "\" AND start_time > \""+hour+"\"ORDER BY start_time LIMIT 1;"
+        query = "SELECT start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND course_id = \"" + course_id + "\" AND day = \"" + week_day+ "\" AND start_time > \""+hour+"\"ORDER BY start_time LIMIT 1;"
     elif nfl == "second":
-        query = "SELECT course_id, start_time, room_number FROM ( SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" ORDER BY start_time LIMIT 2) AS alias ORDER BY start_time DESC LIMIT 1;"
+        query = "SELECT start_time, room_number FROM ( SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" ORDER BY start_time LIMIT 2) AS alias ORDER BY start_time DESC LIMIT 1;"
 
     cursor.execute(query)
 
