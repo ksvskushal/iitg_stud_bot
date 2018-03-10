@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import datetime
+import calendar
 import urllib
 import httplib
 import json
@@ -65,8 +66,9 @@ def get_class_timings_nfl(req,res):
     if not week_day:
         week_day = req.get("result").get("parameters").get("sys.date")
         if week_day:
-            day, month, year = (int(x) for x in week_day.split('-'))
+            year, month, day = (int(x) for x in dt.split('-'))    
             ans = datetime.date(year, month, day)
+            ans= ans.strftime("%A")
             ans = ans.upper()
             week_day = ans[0:3]
 
@@ -83,7 +85,7 @@ def get_class_timings_nfl(req,res):
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
 
     roll_no = student_list[sender_id]
-    hour = datetime.datetime.now().hour % 12
+    hour = datetime.datetime.now().hour
 
     hour = str(hour)
     hour = "{0:0>2}".format(hour)
