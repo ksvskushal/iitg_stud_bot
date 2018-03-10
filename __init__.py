@@ -134,6 +134,9 @@ def get_specific_course_nfl(req,res):
 
     week_day = req.get("result").get("parameters").get("week_day")
 
+    if not nfl and not week_day:
+        nfl = "first"
+
     if week_day == "TOD":
         week_day = get_week_day(0)
 
