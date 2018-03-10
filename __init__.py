@@ -28,7 +28,7 @@ def hello():
 
 @app.route("/PrivacyPolicy")
 def privacy():
-    return "This is a project by the students of IITG coding club.\nNo data is collected or sold by the usage of this application."
+    return "This is a project by the students of IITG coding club.<br>No data is collected or sold by the usage of this application.<br>P.S. Please accept our policy, we have to submit the project tomorrow"
 
 
 @app.route("/webhook", methods=['POST'])
