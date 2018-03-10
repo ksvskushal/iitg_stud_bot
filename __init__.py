@@ -192,7 +192,7 @@ def get_specific_course_nfl(req,res):
     print(len(data))
 
     for k in data:
-        out_string += "You have " + course_id + " from " + k[0] + " in " + k[1] + "\n"
+        out_string += "You have " + course_id + " from " + k[0] + " in " + k[1] + " on "+ week_day + "\n"
 
     return {
         "speech": out_string,
