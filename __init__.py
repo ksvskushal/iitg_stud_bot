@@ -47,6 +47,8 @@ def test():
         res = get_exam_timings(req,res)
     elif intent_name == "timings-nfl-class":
         res = get_class_timings_nfl(req,res)
+    elif intent_name == "schedule-specific-day":
+        res = get_schedule_specific_day(req,res)
 
     print("Response:")
     res = json.dumps(res, indent=4)
@@ -58,6 +60,63 @@ def test():
 def get_week_day(diff):
     week_day_dict = {'0':'MON', '1':'TUE', '2':'WED', '3':'THU', '4':'FRI', '5':'SAT', '6':'SUN'}
     return week_day_dict[str(datetime.datetime.today().weekday() + diff)]
+
+def get_schedule_specific_day(req,res):
+
+    week_day = req.get("result").get("parameters").get("week_day")
+
+    if week_day == "TOD":
+        week_day = get_week_day(0)
+
+    if week_day == "TOM":
+        week_day = get_week_day(1)
+
+    if not week_day:
+        week_day = req.get("result").get("parameters").get("sys.date")
+        if week_day:
+            year, month, day = (int(x) for x in dt.split('-'))    
+            ans = datetime.date(year, month, day)
+            ans= ans.strftime("%A")
+            ans = ans.upper()
+            week_day = ans[0:3]
+
+    if not week_day:
+        week_day = get_week_day(0)
+
+    student_list = {    
+        '1338471136207322': '160101076',
+        '1653617614727730': '150101031'
+    }
+
+    sender_id = req.get("originalRequest").get("data").get("sender").get("id")
+
+    roll_no = student_list[sender_id]
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" ORDER BY start_time LIMIT;"
+
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+    # data = data[0][0]
+    print(data)
+
+    out_string = ""
+
+    for k in (0,len(data)):
+        temp = data[k]
+        # out_list = json.dumps(data)
+        out_string += "You have " + temp[0] + " from " + temp[1] + " in " + temp[2] + "\n"
+
+    return {
+        "speech": out_string,
+        "displayText": out_string,
+        #"data": {},
+        # "contextOut": [],
+        "source": "IITG-Student-Buddy"
+    }
 
 def get_class_timings_nfl(req,res):
 
