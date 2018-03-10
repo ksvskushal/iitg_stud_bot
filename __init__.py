@@ -110,11 +110,11 @@ def get_class_timings_nfl(req,res):
     print(data)
 
     out_string = ""
-    
+
     for k in range(0,len(data)):
-        data = data[k]
+        temp = data[k]
         # out_list = json.dumps(data)
-        out_string += "You have " + data[0] + " from " + data[1] + " in " + data[2] + "\n"
+        out_string += "You have " + temp[0] + " from " + temp[1] + " in " + temp[2] + "\n"
 
     return {
         "speech": out_string,
