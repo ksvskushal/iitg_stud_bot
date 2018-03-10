@@ -63,6 +63,9 @@ def get_class_timings_nfl(req,res):
 
     week_day = req.get("result").get("parameters").get("week_day")
 
+    if week_day == "TOD":
+
+
     if not week_day:
         week_day = req.get("result").get("parameters").get("sys.date")
         if week_day:
@@ -94,14 +97,14 @@ def get_class_timings_nfl(req,res):
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    if nfl == "first" or nfl == "First": 
-        query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" ORDER BY start_time LIMIT 1"
-    elif nfl == "last" or nfl ==  "Last":
-        query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" ORDER BY start_time DESC LIMIT 1"
-    elif nfl == "next" or nfl ==  "Next":
-        query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" AND start_time > \""+hour+"\"ORDER BY start_time LIMIT 1"
-    else:
-        query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" ORDER BY start_time"
+    if nfl == "first": 
+        query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" ORDER BY start_time LIMIT 1;"
+    elif nfl == "last":
+        query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" ORDER BY start_time DESC LIMIT 1;"
+    elif nfl == "next":
+        query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" AND start_time > \""+hour+"\"ORDER BY start_time LIMIT 1;"
+    elif nfl == "second":
+        query = "SELECT course_id, start_time, room_number FROM ( SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" ORDER BY start_time LIMIT 2) ORDER BY start_time DESC LIMIT 1;"
 
     cursor.execute(query)
 
@@ -109,12 +112,9 @@ def get_class_timings_nfl(req,res):
     # data = data[0][0]
     print(data)
 
-    out_string = ""
-
-    for k in range(0,len(data)):
-        temp = data[k]
+    temp = data[0]
         # out_list = json.dumps(data)
-        out_string += "You have " + temp[0] + " from " + temp[1] + " in " + temp[2] + "\n"
+    out_string = "You have " + temp[0] + " from " + temp[1] + " in " + temp[2] + "\n"
 
     return {
         "speech": out_string,
