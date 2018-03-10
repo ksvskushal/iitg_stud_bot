@@ -103,13 +103,11 @@ def get_schedule_specific_day(req,res):
     # data = data[0][0]
     print(data)
     print(len(data))
-    
+
     out_string = ""
 
-    for k in (0,len(data)):
-        temp = data[k]
-        # out_list = json.dumps(data)
-        out_string += "You have " + temp[0] + " from " + temp[1] + " in " + temp[2] + "\n"
+    for k in data:
+        out_string += "You have " + k[0] + " from " + k[1] + " in " + k[2] + "\n"
 
     return {
         "speech": out_string,
