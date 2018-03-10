@@ -59,9 +59,11 @@ def test():
 
 def get_week_day(diff):
     week_day_dict = {'0':'MON', '1':'TUE', '2':'WED', '3':'THU', '4':'FRI', '5':'SAT', '6':'SUN'}
-    return week_day_dict[str(datetime.datetime.today().weekday() + diff)]
+    return week_day_dict[str((datetime.datetime.today().weekday() + diff) % 7)]
 
 def get_schedule_specific_day(req,res):
+
+    out_string = ""
 
     week_day = req.get("result").get("parameters").get("week_day")
 
@@ -84,6 +86,9 @@ def get_schedule_specific_day(req,res):
     
     if not week_day:
         week_day = get_week_day(0)
+        if week_day == "SAT" or week_day == "SUN":
+            out_string += "No classes today! \n This is the time-table for next Monday.\n"
+            week_day = "MON"
 
     student_list = {    
         '1338471136207322': '160101076',
@@ -107,8 +112,6 @@ def get_schedule_specific_day(req,res):
     print(data)
     print(len(data))
 
-    out_string = ""
-
     for k in data:
         out_string += "You have " + k[0] + " from " + k[1] + " in " + k[2] + "\n"
 
@@ -121,6 +124,8 @@ def get_schedule_specific_day(req,res):
     }
 
 def get_class_timings_nfl(req,res):
+
+    out_string = ""
 
     week_day = req.get("result").get("parameters").get("week_day")
 
@@ -141,6 +146,9 @@ def get_class_timings_nfl(req,res):
 
     if not week_day:
         week_day = get_week_day(0)
+        if week_day == "SAT" or week_day == "SUN":
+            out_string += "No classes today! \n This is the time-table for next Monday.\n"
+            week_day = "MON"
 
     nfl = req.get("result").get("parameters").get("time")
 
@@ -178,7 +186,7 @@ def get_class_timings_nfl(req,res):
 
     temp = data[0]
         # out_list = json.dumps(data)
-    out_string = "You have " + temp[0] + " from " + temp[1] + " in " + temp[2] + "\n"
+    out_string += "You have " + temp[0] + " from " + temp[1] + " in " + temp[2] + "\n"
 
     return {
         "speech": out_string,
