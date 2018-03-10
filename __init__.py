@@ -26,6 +26,11 @@ mysql.init_app(app)
 def hello():
     return "Hello, I love Digital Ocean!"
 
+@app.route("/vivek")
+def hello():
+    return "Hey! This is Vivek ;D!"
+
+
 @app.route("/webhook", methods=['POST'])
 def test():
     req = request.get_json(silent=True, force=True)
