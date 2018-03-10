@@ -314,7 +314,7 @@ def get_exam_timings(req,res):
     data = cursor.fetchall()
     # data = data[0][0]
     print(data)
-    if data != ()
+    if data
         data = data[0]
         # out_list = json.dumps(data)
         out_string = "The Exam is on " + data[0] + " from " + data[1] + " to " + data[2]
