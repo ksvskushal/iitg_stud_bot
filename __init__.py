@@ -95,7 +95,7 @@ def get_schedule_specific_day(req,res):
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" ORDER BY start_time LIMIT;"
+    query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" ORDER BY start_time;"
 
     cursor.execute(query)
 
