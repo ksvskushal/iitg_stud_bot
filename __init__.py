@@ -55,16 +55,19 @@ def test():
     r.headers['Content-Type'] = 'application/json'
     return r
 
-def get_week_day():
+def get_week_day(diff):
     week_day_dict = {'0':'MON', '1':'TUE', '2':'WED', '3':'THU', '4':'FRI', '5':'SAT', '6':'SUN'}
-    return week_day_dict[str(datetime.datetime.today().weekday())]
+    return week_day_dict[str(datetime.datetime.today().weekday() + diff)]
 
 def get_class_timings_nfl(req,res):
 
     week_day = req.get("result").get("parameters").get("week_day")
 
     if week_day == "TOD":
+        week_day = get_week_day(0)
 
+    if week_day == "TOM":
+        week_day = get_week_day(1)
 
     if not week_day:
         week_day = req.get("result").get("parameters").get("sys.date")
@@ -76,7 +79,7 @@ def get_class_timings_nfl(req,res):
             week_day = ans[0:3]
 
     if not week_day:
-        week_day = get_week_day()
+        week_day = get_week_day(0)
 
     nfl = req.get("result").get("parameters").get("time")
 
@@ -126,7 +129,7 @@ def get_class_timings_nfl(req,res):
 
 def get_location(req,res):
 
-    week_day = get_week_day
+    week_day = get_week_day(0)
 
     course_id = req.get("result").get("parameters").get("course-name")
     conn = mysql.connect()
