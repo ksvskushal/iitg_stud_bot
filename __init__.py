@@ -87,7 +87,8 @@ def get_schedule_specific_day(req,res):
 
     student_list = {    
         '1338471136207322': '160101076',
-        '1653617614727730': '150101031'
+        '1653617614727730': '150101031',
+        '1852825864791150': '150123004',
     }
 
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
