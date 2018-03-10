@@ -129,8 +129,10 @@ def get_specific_course_time(req,res):
 
     out_string = ""
 
-    week_day = req.get("result").get("parameters").get("week_day")
+    nfl = req.get("result").get("parameters").get("time")
     course_id = req.get("result").get("parameters").get("course_id")
+
+    week_day = req.get("result").get("parameters").get("week_day")
 
     if week_day == "TOD":
         week_day = get_week_day(0)
@@ -147,28 +149,38 @@ def get_specific_course_time(req,res):
             ans = ans.upper()
             week_day = ans[0:3]
 
-    print (week_day)
-    
-    # if not week_day:
-    #     week_day = get_week_day(0)
-    #     if week_day == "SAT" or week_day == "SUN":
-    #         out_string += "No classes today! \n This is the time-table for next Monday.\n"
-    #         week_day = "MON"
+    if not week_day:
+        week_day = get_week_day(0)
+        if week_day == "SAT" or week_day == "SUN":
+            out_string += "No classes today! \n This is the time-table for next Monday.\n"
+            week_day = "MON"
+            nfl = "first"
 
     student_list = {    
         '1338471136207322': '160101076',
-        '1653617614727730': '150101031',
-        '1852825864791150': '150123004',
+        '1653617614727730': '150101031'
     }
 
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
 
     roll_no = student_list[sender_id]
+    hour = datetime.datetime.now().hour
+
+    hour = str(hour)
+    hour = "{0:0>2}".format(hour)
+    hour = hour + ":00:00"
 
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    query = "SELECT start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND course_id =\"" + course_id +"\" AND day = \"" + week_day+ "\" ORDER BY start_time;"
+    if nfl == "first": 
+        query = "SELECT start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND course_id = \"" + course_id + "\" AND day = \"" + week_day+ "\" ORDER BY start_time LIMIT 1;"
+    elif nfl == "last":
+        query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND course_id = \"" + course_id + "\" AND day = \"" + week_day+ "\" ORDER BY start_time DESC LIMIT 1;"
+    elif nfl == "next":
+        query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND course_id = \"" + course_id + "\" AND day = \"" + week_day+ "\" AND start_time > \""+hour+"\"ORDER BY start_time LIMIT 1;"
+    elif nfl == "second":
+        query = "SELECT course_id, start_time, room_number FROM ( SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" ORDER BY start_time LIMIT 2) AS alias ORDER BY start_time DESC LIMIT 1;"
 
     cursor.execute(query)
 
