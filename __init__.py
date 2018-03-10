@@ -154,7 +154,7 @@ def get_specific_course_nfl(req,res):
         if week_day == "SAT" or week_day == "SUN":
             out_string += "No classes today! \n This is the time-table for next Monday.\n"
             week_day = "MON"
-            # nfl = "first"
+            nfl = "first"
 
     student_list = {    
         '1338471136207322': '160101076',
