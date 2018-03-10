@@ -102,7 +102,8 @@ def get_schedule_specific_day(req,res):
     data = cursor.fetchall()
     # data = data[0][0]
     print(data)
-
+    print(len(data))
+    
     out_string = ""
 
     for k in (0,len(data)):
