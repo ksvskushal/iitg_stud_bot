@@ -49,8 +49,8 @@ def test():
         res = get_class_timings_nfl(req,res)
     elif intent_name == "schedule-specific-day":
         res = get_schedule_specific_day(req,res)
-    elif intent_name == "specific-course-time":
-        res = get_specific_course_time(req,res)
+    elif intent_name == "specific-course-nfl":
+        res = get_specific_course_nfl(req,res)
 
     print("Response:")
     res = json.dumps(res, indent=4)
@@ -125,7 +125,7 @@ def get_schedule_specific_day(req,res):
         "source": "IITG-Student-Buddy"
     }
 
-def get_specific_course_time(req,res):
+def get_specific_course_nfl(req,res):
 
     out_string = ""
 
@@ -154,7 +154,7 @@ def get_specific_course_time(req,res):
         if week_day == "SAT" or week_day == "SUN":
             out_string += "No classes today! \n This is the time-table for next Monday.\n"
             week_day = "MON"
-            nfl = "first"
+            # nfl = "first"
 
     student_list = {    
         '1338471136207322': '160101076',
@@ -181,6 +181,8 @@ def get_specific_course_time(req,res):
         query = "SELECT start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND course_id = \"" + course_id + "\" AND day = \"" + week_day+ "\" AND start_time > \""+hour+"\"ORDER BY start_time LIMIT 1;"
     elif nfl == "second":
         query = "SELECT start_time, room_number FROM ( SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" ORDER BY start_time LIMIT 2) AS alias ORDER BY start_time DESC LIMIT 1;"
+    else:
+        query = "SELECT start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND course_id = \"" + course_id + "\" AND day = \"" + week_day+ "\";"
 
     cursor.execute(query)
 
