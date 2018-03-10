@@ -152,7 +152,7 @@ def get_specific_course_nfl(req,res):
     if not week_day:
         week_day = get_week_day(0)
         if week_day == "SAT" or week_day == "SUN":
-            out_string += "No classes today! \n This is the time-table for next Monday.\n"
+            # out_string += "No classes today! \n This is the time-table for next Monday.\n"
             week_day = "MON"
             nfl = "first"
 
@@ -193,6 +193,9 @@ def get_specific_course_nfl(req,res):
 
     for k in data:
         out_string += "You have " + course_id + " from " + k[0] + " in " + k[1] + " on "+ week_day + "\n"
+    
+    if not k:
+        out_string = "You are don't have any class on" + week_day
 
     return {
         "speech": out_string,
