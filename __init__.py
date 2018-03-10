@@ -72,7 +72,7 @@ def get_schedule_specific_day(req,res):
         week_day = get_week_day(1)
 
     if not week_day:
-        week_day = req.get("result").get("parameters").get("sys.date")
+        week_day = req.get("result").get("parameters").get("date")
         if week_day:
             year, month, day = (int(x) for x in dt.split('-'))    
             ans = datetime.date(year, month, day)
@@ -128,7 +128,7 @@ def get_class_timings_nfl(req,res):
         week_day = get_week_day(1)
 
     if not week_day:
-        week_day = req.get("result").get("parameters").get("sys.date")
+        week_day = req.get("result").get("parameters").get("date")
         if week_day:
             year, month, day = (int(x) for x in dt.split('-'))    
             ans = datetime.date(year, month, day)
