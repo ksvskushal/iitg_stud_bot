@@ -190,7 +190,7 @@ def get_specific_course_time(req,res):
     print(len(data))
 
     for k in data:
-        out_string += "You have " + k[0] + " from " + k[1] + " in " + k[2] + "\n"
+        out_string += "You have " + course_id + " from " + k[0] + " in " + k[1] + "\n"
 
     return {
         "speech": out_string,
