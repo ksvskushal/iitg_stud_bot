@@ -100,15 +100,19 @@ def get_class_timings_nfl(req,res):
         query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" ORDER BY start_time DESC LIMIT 1"
     elif nfl == "next" or nfl ==  "Next":
         query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" AND start_time > \""+hour+"\"ORDER BY start_time LIMIT 1"
+    else:
+        query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" ORDER BY start_time"
 
     cursor.execute(query)
 
     data = cursor.fetchall()
     # data = data[0][0]
     print(data)
-    data = data[0]
-    # out_list = json.dumps(data)
-    out_string = "You have " + data[0] + " from " + data[1] + " in " + data[2]
+
+    for k in range(0,len(data)):
+        data = data[k]
+        # out_list = json.dumps(data)
+        out_string += "You have " + data[0] + " from " + data[1] + " in " + data[2] + "\n"
 
     return {
         "speech": out_string,
