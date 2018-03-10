@@ -56,6 +56,8 @@ def test():
         res = get_schedule_specific_day(req,res)
     elif intent_name == "specific-course-nfl":
         res = get_specific_course_nfl(req,res)
+    elif intent_name == "bus-timings":
+        res = get_bus_timings(req,res)
 
     print("Response:")
     res = json.dumps(res, indent=4)
@@ -304,6 +306,24 @@ def get_location(req,res):
 
     out_string = json.dumps(data)
     out_string = "The Class is in " + out_string
+
+    return {
+        "speech": out_string,
+        "displayText": out_string,
+        #"data": {},
+        # "contextOut": [],
+        "source": "IITG-Student-Buddy"
+    }
+
+def get_bus_timings(req,res):
+    
+    now = datetime.datetime.now()
+
+    sch = req.get("result").get("parameters").get("schedule")
+
+    if sch:
+        out_string = "The bus timings are:\n\nFrom City\n6:45 AM\n7:45AM\n8:15 AM\n10:00AM\n11:00 AM\n01:00PM\n2:00PM\n3:00PM\n4:00PM\n5:00\n6:00\n6:30PM\n7:15PM\n8:00PM\n8:30PM\n8:45PM\n8:55PM\n9:00PM"
+        out_string += "\n\nTo City\n8:00AM\n9:00AM\n10:00AM\n10:30AM\n12:00\n01:00PM\n2:00PM\n3:00PM\n3:30PM\n4:00PM\n5:00\n5:40\n6:45PM\n8:00PM\n8:40PM\n9:00PM\n9:15PM\n9:30PM"
 
     return {
         "speech": out_string,
