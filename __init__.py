@@ -59,9 +59,19 @@ def get_week_day():
     return week_day_dict[str(datetime.datetime.today().weekday())]
 
 def get_class_timings_nfl(req,res):
-    week_day = get_week_day()
 
-    week_day = "TUE"
+    week_day = req.get("result").get("parameters").get("week_day")
+
+    if not week_day:
+        week_day = req.get("result").get("parameters").get("sys.date")
+        if week_day:
+            day, month, year = (int(x) for x in week_day.split('-'))
+            ans = datetime.date(year, month, day)
+            ans = ans.upper()
+            week_day = ans[0:3]
+
+    if not week_day:
+        week_day = get_week_day()
 
     nfl = req.get("result").get("parameters").get("time")
 
