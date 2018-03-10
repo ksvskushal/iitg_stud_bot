@@ -80,6 +80,8 @@ def get_schedule_specific_day(req,res):
             ans = ans.upper()
             week_day = ans[0:3]
 
+    print (week_day)
+    
     if not week_day:
         week_day = get_week_day(0)
 
