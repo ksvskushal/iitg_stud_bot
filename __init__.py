@@ -109,6 +109,8 @@ def get_class_timings_nfl(req,res):
     # data = data[0][0]
     print(data)
 
+    out_string = ""
+    
     for k in range(0,len(data)):
         data = data[k]
         # out_list = json.dumps(data)
