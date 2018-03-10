@@ -204,7 +204,7 @@ def get_specific_course_nfl(req,res):
     for k in data:
         out_string += "You have " + course_id + " from " + k[0] + " in " + k[1] + " on "+ week_day + "\n"
     
-    if not k:
+    if not data:
         out_string = "You are don't have any class on" + week_day
 
     return {
