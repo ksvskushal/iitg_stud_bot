@@ -22,7 +22,7 @@ app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
 mysql.init_app(app)
 
-@app.route("/hi")
+@app.route("/complexshit")
 def hello():
     return "Hello, I love Digital Ocean!"
 
