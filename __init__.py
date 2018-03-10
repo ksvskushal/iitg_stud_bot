@@ -127,6 +127,8 @@ def get_class_timings_nfl(req,res):
 
     out_string = ""
 
+    nfl = req.get("result").get("parameters").get("time")
+
     week_day = req.get("result").get("parameters").get("week_day")
 
     if week_day == "TOD":
@@ -149,8 +151,7 @@ def get_class_timings_nfl(req,res):
         if week_day == "SAT" or week_day == "SUN":
             out_string += "No classes today! \n This is the time-table for next Monday.\n"
             week_day = "MON"
-
-    nfl = req.get("result").get("parameters").get("time")
+            nfl = "first"
 
     student_list = {    
         '1338471136207322': '160101076',
