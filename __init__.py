@@ -27,7 +27,7 @@ def hello():
     return "Hello, I love Digital Ocean!"
 
 @app.route("/vivek")
-def hello():
+def vivek():
     return "Hey! This is Vivek ;D!"
 
 
