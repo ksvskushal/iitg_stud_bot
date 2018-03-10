@@ -49,6 +49,8 @@ def test():
         res = get_class_timings_nfl(req,res)
     elif intent_name == "schedule-specific-day":
         res = get_schedule_specific_day(req,res)
+    elif intent_name == "specific-course-time":
+        res = get_specific_course_time(req,res)
 
     print("Response:")
     res = json.dumps(res, indent=4)
@@ -104,6 +106,69 @@ def get_schedule_specific_day(req,res):
     cursor = conn.cursor()
 
     query = "SELECT course_id, start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND day = \"" + week_day+ "\" ORDER BY start_time;"
+
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+    # data = data[0][0]
+    print(data)
+    print(len(data))
+
+    for k in data:
+        out_string += "You have " + k[0] + " from " + k[1] + " in " + k[2] + "\n"
+
+    return {
+        "speech": out_string,
+        "displayText": out_string,
+        #"data": {},
+        # "contextOut": [],
+        "source": "IITG-Student-Buddy"
+    }
+
+def get_specific_course_time(req,res):
+
+    out_string = ""
+
+    week_day = req.get("result").get("parameters").get("week_day")
+    course_id = req.get("result").get("parameters").get("course_id")
+
+    if week_day == "TOD":
+        week_day = get_week_day(0)
+
+    if week_day == "TOM":
+        week_day = get_week_day(1)
+
+    if not week_day:
+        week_day = req.get("result").get("parameters").get("date")
+        if week_day:
+            year, month, day = (int(x) for x in week_day.split('-'))    
+            ans = datetime.date(year, month, day)
+            ans= ans.strftime("%A")
+            ans = ans.upper()
+            week_day = ans[0:3]
+
+    print (week_day)
+    
+    # if not week_day:
+    #     week_day = get_week_day(0)
+    #     if week_day == "SAT" or week_day == "SUN":
+    #         out_string += "No classes today! \n This is the time-table for next Monday.\n"
+    #         week_day = "MON"
+
+    student_list = {    
+        '1338471136207322': '160101076',
+        '1653617614727730': '150101031',
+        '1852825864791150': '150123004',
+    }
+
+    sender_id = req.get("originalRequest").get("data").get("sender").get("id")
+
+    roll_no = student_list[sender_id]
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    query = "SELECT start_time, room_number FROM ctt WHERE roll_number = " + roll_no + " AND course_id =\"" + course_id +"\" AND day = \"" + week_day+ "\" ORDER BY start_time;"
 
     cursor.execute(query)
 
@@ -249,9 +314,12 @@ def get_exam_timings(req,res):
     data = cursor.fetchall()
     # data = data[0][0]
     print(data)
-    data = data[0]
-    # out_list = json.dumps(data)
-    out_string = "The Exam is on " + data[0] + " from " + data[1] + " to " + data[2]
+    if data != ()
+        data = data[0]
+        # out_list = json.dumps(data)
+        out_string = "The Exam is on " + data[0] + " from " + data[1] + " to " + data[2]
+    else:
+        out_string = "There is no exam for " + course_id +". ENJOY!"
 
     return {
         "speech": out_string,
