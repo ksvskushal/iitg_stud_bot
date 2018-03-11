@@ -105,6 +105,7 @@ def get_schedule_specific_day(req,res):
         '1338471136207322': '160101076',
         '1653617614727730': '150101031',
         '1852825864791150': '150123004',
+        '1653617614727730': '150103085'
     }
 
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
@@ -170,7 +171,8 @@ def get_specific_course_nfl(req,res):
 
     student_list = {    
         '1338471136207322': '160101076',
-        '1653617614727730': '150101031'
+        '1653617614727730': '150101031',
+        '1653617614727730': '150103085'
     }
 
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
@@ -249,7 +251,8 @@ def get_class_timings_nfl(req,res):
 
     student_list = {    
         '1338471136207322': '160101076',
-        '1653617614727730': '150101031'
+        '1653617614727730': '150101031',
+        '1653617614727730': '150103085'
     }
 
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
@@ -322,10 +325,40 @@ def get_bus_timings(req,res):
     now = datetime.datetime.now()
 
     sch = req.get("result").get("parameters").get("schedule")
+    city = req.get("result").get("parameters").get("city")
 
     if sch:
         out_string = "The bus timings are:\n\nFrom City\n6:45 AM, 7:45AM, 8:15 AM, 10:00AM, 11:00 AM, 01:00PM, 2:00PM, 3:00PM, 4:00PM, 5:00, 6:00, 6:30PM, 7:15PM, 8:00PM, 8:30PM, 8:45PM, 8:55PM, 9:00PM"
         out_string += "\n\nTo City\n8:00AM, 9:00AM, 10:00AM, 10:30AM, 12:00, 01:00PM, 2:00PM, 3:00PM, 3:30PM, 4:00PM, 5:00, 5:40, 6:45PM, 8:00PM, 8:40PM, 9:00PM, 9:15PM, 9:30PM"
+    else city == "from-city":
+        else if now.hour < 6 and now.minute < 45:
+            out_string = "The next bus is at 6:45AM"
+        else if now.hour < 7 and now.minute < 45:
+            out_string = "The next bus is at 7:45AM"
+        else if now.hour < 8 and now.minute < 15:
+            out_string = "The next bus is at 8:15AM"
+        else if now.hour < 10 and now.minute < 00:
+            out_string = "The next bus is at 10:00AM"
+        else if now.hour < 11 and now.minute < 0:
+            out_string = "The next bus is at 11:00AM"
+        else if now.hour < 1 and now.minute < 0:
+            out_string = "The next bus is at 1:00PM"
+        else if now.hour < 2 and now.minute < 00:
+            out_string = "The next bus is at 2:00PM"
+        else if now.hour < 3 and now.minute < 0:
+            out_string = "The next bus is at 3:00PM"
+        else if now.hour < 4 and now.minute < 00:
+            out_string = "The next bus is at 4:00PM"
+        else if now.hour < 5 and now.minute < 00:
+            out_string = "The next bus is at 5:00PM"
+        else if now.hour < 6 and now.minute < 0:
+            out_string = "The next bus is at 6:00PM"
+        else if now.hour < 6 and now.minute < 30:
+            out_string = "The next bus is at 6:30PM"
+        else if now.hour < 7 and now.minute < 15:
+            out_string = "The next bus is at 7:15PM"
+        else if now.hour < 8 and now.minute < 45:
+            out_string = "The next bus is at 8:45PM"
 
     return {
         "speech": out_string,
