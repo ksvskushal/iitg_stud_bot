@@ -314,7 +314,7 @@ def get_location(req,res):
 def get_bus_timings(req,res):
     
     now = datetime.datetime.now()
-
+    print(now)
     sch = req.get("result").get("parameters").get("schedule")
     city = req.get("result").get("parameters").get("city")
 
