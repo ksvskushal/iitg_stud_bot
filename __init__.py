@@ -350,7 +350,7 @@ def get_exam_timings(req,res):
         query = "SELECT exam_date,start_time,end_time FROM mid_ett WHERE course_id = \"" + course_id + "\";"
     elif sem == "endsem":
         query = "SELECT exam_date,start_time,end_time FROM end_ett WHERE course_id = \"" + course_id + "\";"
-    elif sem ==  "":
+    elif sem ==  "" or sem == None:
         if now < betw_mid_end:
             query = "SELECT exam_date,start_time,end_time FROM mid_ett WHERE course_id = \"" + course_id + "\";"
         else:
