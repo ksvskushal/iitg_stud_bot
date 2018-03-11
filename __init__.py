@@ -22,6 +22,12 @@ app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
 mysql.init_app(app)
 
+student_list = {    
+        '1338471136207322': '160101076',
+        '1653617614727730': '150101031',
+        '1653617614727730': '150103085'
+    }
+
 @app.route("/complexshit")
 def hello():
     return "Hello, I love Digital Ocean!"
@@ -101,12 +107,6 @@ def get_schedule_specific_day(req,res):
             out_string += "No classes today! \n This is the time-table for next Monday.\n"
             week_day = "MON"
 
-    student_list = {    
-        '1338471136207322': '160101076',
-        '1653617614727730': '150101031',
-        '1852825864791150': '150123004',
-        '1653617614727730': '150103085'
-    }
 
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
 
@@ -169,11 +169,6 @@ def get_specific_course_nfl(req,res):
             week_day = "MON"
             nfl = "first"
 
-    student_list = {    
-        '1338471136207322': '160101076',
-        '1653617614727730': '150101031',
-        '1653617614727730': '150103085'
-    }
 
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
 
@@ -249,11 +244,7 @@ def get_class_timings_nfl(req,res):
             week_day = "MON"
             nfl = "first"
 
-    student_list = {    
-        '1338471136207322': '160101076',
-        '1653617614727730': '150101031',
-        '1653617614727730': '150103085'
-    }
+    
 
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
 
