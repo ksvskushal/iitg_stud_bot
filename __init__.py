@@ -317,7 +317,9 @@ def get_bus_timings(req,res):
     print(now)
     sch = req.get("result").get("parameters").get("schedule")
     city = req.get("result").get("parameters").get("city")
-
+    
+    now += timedelta(seconds=19800)
+    
     if sch:
         out_string = "The bus timings are:\n\nFrom City\n6:45 AM, 7:45AM, 8:15 AM, 10:00AM, 11:00 AM, 01:00PM, 2:00PM, 3:00PM, 4:00PM, 5:00, 6:00, 6:30PM, 7:15PM, 8:00PM, 8:30PM, 8:45PM, 8:55PM, 9:00PM"
         out_string += "\n\nTo City\n8:00AM, 9:00AM, 10:00AM, 10:30AM, 12:00, 01:00PM, 2:00PM, 3:00PM, 3:30PM, 4:00PM, 5:00, 5:40, 6:45PM, 8:00PM, 8:40PM, 9:00PM, 9:15PM, 9:30PM"
