@@ -5,6 +5,7 @@ import calendar
 import urllib
 import httplib
 import json
+import time
 import os
 
 from flask import Flask,request,make_response
@@ -291,18 +292,29 @@ def get_location(req,res):
     week_day = get_week_day(0)
 
     course_id = req.get("result").get("parameters").get("course-name")
+
     conn = mysql.connect()
     cursor = conn.cursor()
 
+    out_string = ""
+
     query = "SELECT room_number FROM ScheduledIn WHERE course_id = \"" + course_id + "\" AND day = \"" + week_day + "\";"
+
+    if week_day == "SAT" or week_day == "SUN":
+        query = "SELECT day,room_number FROM ScheduledIn WHERE course_id = \"" + course_id + "\";"
 
     cursor.execute(query)
 
     data = cursor.fetchall()
-    data = data[0]
 
-    out_string = json.dumps(data)
-    out_string = "The Class is in " + out_string
+    if week_day == "SAT" or week_day == "SUN":
+        out_string+= "Day  Room\n"
+        for x in data:
+            out_string+= x[0] + "  " + x[1] + "\n"
+    else:
+        data = data[0]
+        out_string = json.dumps(data)
+        out_string += "The Class is in " + out_string
 
     return {
         "speech": out_string,
@@ -311,8 +323,6 @@ def get_location(req,res):
         # "contextOut": [],
         "source": "IITG-Student-Buddy"
     }
-
-import time
 
 def get_bus_timings(req,res):
     
