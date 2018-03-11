@@ -310,7 +310,7 @@ def get_location(req,res):
     if week_day == "SAT" or week_day == "SUN":
         out_string+= "Day  Room\n"
         for x in data:
-            out_string+= x[0] + "  " + x[1] + "\n"
+            out_string+= x[0] + "  - " + x[1] + "\n"
     else:
         data = data[0]
         out_string = json.dumps(data)
