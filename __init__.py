@@ -58,6 +58,8 @@ def test():
         res = get_specific_course_nfl(req,res)
     elif intent_name == "bus-timings":
         res = get_bus_timings(req,res)
+    elif intent_name == "my-ip-hostel":
+        res = get_hostel(req,res)
 
     print("Response:")
     res = json.dumps(res, indent=4)
@@ -365,6 +367,72 @@ def get_exam_timings(req,res):
         out_string = "The Exam is on " + data[0] + " from " + data[1] + " to " + data[2]
     else:
         out_string = "There is no exam for " + course_id +". ENJOY!"
+
+    return {
+        "speech": out_string,
+        "displayText": out_string,
+        #"data": {},
+        # "contextOut": [],
+        "source": "IITG-Student-Buddy"
+    }
+
+def get_hostel(req,res):
+
+    info = req.get("result").get("parameters").get("hostel")
+    info = info.replace("."," ")
+    info = info.replace("-"," ")
+    info = info.split()
+
+    hostel = info[0]
+    hostel = hostel[0:3]
+    hostel = hostel.upper()
+
+    block = 0
+    if len(info) is 3:
+        block = info[1][0]
+        block = block.upper()
+        block = ord(block) - 65
+
+    block = str(block)
+
+    l = len(info)
+
+    room = info[l - 1]
+    room = int(room)
+    room = "{0:0=3d}".format(room)
+    room = str(room)
+    floor = room[0]
+    room = room[1:]
+    room = str(int(room))
+
+
+    hostel_dict = {
+    'BAR' : ['255.255.192.0' , '10.10.0.254'],
+    'BRA' : ['255.255.192.0' , '10.12.0.254'],
+    'DIB' : ['255.255.192.0' , '10.8.0.254'],
+    'DIH' : ['255.255.252.0' , '10.0.0.254'],
+    'KAM' : ['255.255.192.0' , '10.9.0.254'],
+    'KAP' : ['255.255.252.0' , '10.1.0.254'],
+    'MAN' : ['255.255.192.0' , '10.4.0.254'],
+    'MAR' : ['255.255.252.0' , '10.17.0.254'],
+    'SIA' : ['255.255.252.0' , '10.3.0.254'],
+    'SUB' : ['255.255.192.0' , '10.16.0.254'],
+    'UMI' : ['255.255.192.0' , '10.11.0.254']}
+
+    prefix = hostel_dict[hostel][1]
+    prefix = prefix.split(".")
+
+    a = prefix[0]
+    b = prefix[1]
+    c = block + floor
+    c = str(int(c))
+    d = room
+
+    ip = ".".join([a,b,c,d])
+
+    out_string = "IP address - " + ip + "\n"
+    out_string += "Subnet - " + hostel_dict[hostel][0] + "\n"
+    out_string += "Gateway - " + hostel_dict[hostel][1]
 
     return {
         "speech": out_string,
