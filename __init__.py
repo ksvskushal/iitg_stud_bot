@@ -332,23 +332,23 @@ def get_bus_timings(req,res):
             out_string = "The next bus is at 10:00AM"
         elif now.hour < 11 and now.minute < 0:
             out_string = "The next bus is at 11:00AM"
-        elif now.hour < 1 and now.minute < 0:
+        elif now.hour < 1+12 and now.minute < 0:
             out_string = "The next bus is at 1:00PM"
-        elif now.hour < 2 and now.minute < 00:
+        elif now.hour < 2+12 and now.minute < 00:
             out_string = "The next bus is at 2:00PM"
-        elif now.hour < 3 and now.minute < 0:
+        elif now.hour < 3+12 and now.minute < 0:
             out_string = "The next bus is at 3:00PM"
-        elif now.hour < 4 and now.minute < 00:
+        elif now.hour < 4+12 and now.minute < 00:
             out_string = "The next bus is at 4:00PM"
-        elif now.hour < 5 and now.minute < 00:
+        elif now.hour < 5+12 and now.minute < 00:
             out_string = "The next bus is at 5:00PM"
-        elif now.hour < 6 and now.minute < 0:
+        elif now.hour < 6+12 and now.minute < 0:
             out_string = "The next bus is at 6:00PM"
-        elif now.hour < 6 and now.minute < 30:
+        elif now.hour < 6+12 and now.minute < 30:
             out_string = "The next bus is at 6:30PM"
-        elif now.hour < 7 and now.minute < 15:
+        elif now.hour < 7+12 and now.minute < 15:
             out_string = "The next bus is at 7:15PM"
-        elif now.hour < 8 and now.minute < 45:
+        elif now.hour < 8+12 and now.minute < 45:
             out_string = "The next bus is at 8:45PM"
 
     return {
