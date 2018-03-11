@@ -324,8 +324,8 @@ def get_bus_timings(req,res):
     sch = req.get("result").get("parameters").get("schedule")
 
     if sch:
-        out_string = "The bus timings are:\n\nFrom City\n6:45 AM\n7:45AM\n8:15 AM\n10:00AM\n11:00 AM\n01:00PM\n2:00PM\n3:00PM\n4:00PM\n5:00\n6:00\n6:30PM\n7:15PM\n8:00PM\n8:30PM\n8:45PM\n8:55PM\n9:00PM"
-        out_string += "\n\nTo City\n8:00AM\n9:00AM\n10:00AM\n10:30AM\n12:00\n01:00PM\n2:00PM\n3:00PM\n3:30PM\n4:00PM\n5:00\n5:40\n6:45PM\n8:00PM\n8:40PM\n9:00PM\n9:15PM\n9:30PM"
+        out_string = "The bus timings are:\n\nFrom City\n6:45 AM, 7:45AM, 8:15 AM, 10:00AM, 11:00 AM, 01:00PM, 2:00PM, 3:00PM, 4:00PM, 5:00, 6:00, 6:30PM, 7:15PM, 8:00PM, 8:30PM, 8:45PM, 8:55PM, 9:00PM"
+        out_string += "\n\nTo City\n8:00AM, 9:00AM, 10:00AM, 10:30AM, 12:00, 01:00PM, 2:00PM, 3:00PM, 3:30PM, 4:00PM, 5:00, 5:40, 6:45PM, 8:00PM, 8:40PM, 9:00PM, 9:15PM, 9:30PM"
 
     return {
         "speech": out_string,
