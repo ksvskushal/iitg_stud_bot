@@ -106,9 +106,11 @@ def get_schedule_specific_day(req,res):
     
     if not week_day:
         week_day = get_week_day(0)
+        print (week_day) # to debug
         if week_day == "SAT" or week_day == "SUN":
             out_string += "No classes today! \n This is the time-table for next Monday.\n"
             week_day = "MON"
+            print (week_day) #to debug 
 
 
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
