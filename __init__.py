@@ -178,15 +178,12 @@ def register(req,res):
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    print (roll_number)
-    print (sender)
-
     query = "INSERT INTO student_list VALUES (" + roll_number + "," + sender_id + ");"
 
     cursor.execute(query)
 
     conn.commit()
-    
+
     cursor = conn.close()
 
     out_string += "Successfully Registered.\nHi, I am Student Buddy.\nYour Virtual Assistant in campus\n"
