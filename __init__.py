@@ -60,8 +60,21 @@ def test():
 
     if intent_name == "register":
         res = register(req,res)
+        print("Response:")
+        res = json.dumps(res, indent=4)
+        print (res)
+        r = make_response(res)
+        r.headers['Content-Type'] = 'application/json'
+        return r
+
     elif intent_name == "delete":
         res = delete(req,res)
+        print("Response:")
+        res = json.dumps(res, indent=4)
+        print (res)
+        r = make_response(res)
+        r.headers['Content-Type'] = 'application/json'
+        return r
 
     roll = get_roll_number(sender_id)
 
@@ -70,7 +83,7 @@ def test():
         out_string = "You're not registered.\nPlease register by using command\n"
         out_string+= "Register <Roll_number>\n Example: register 150101001"
 
-        return {
+        res =  {
             "speech": out_string,
             "displayText": out_string,
             #"data": {},
