@@ -536,7 +536,6 @@ def get_location(req,res):
             out_string+= x[0] + "  - " + x[1] + "\n"
     else:
         data = data[0]
-        out_string = json.dumps(data)
         out_string += "The Class is in " + out_string
 
     return {
