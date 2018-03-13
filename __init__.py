@@ -163,7 +163,7 @@ def register(req,res):
 
     if len(data) != 0:
 
-        out_string += "This Facebook ID is already registered to the roll number " + data[0] + "\n"
+        out_string += "This Facebook ID is already registered to the roll number " + str(data[0]) + "\n"
         out_string += "To change the roll number, first delete the previous entry and then register. \n"
         out_string += "To delete use the command Delete <Roll Number> Ex: Delete 150101001"
 
