@@ -23,13 +23,13 @@ app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
 mysql.init_app(app)
 
-student_list = {    
-        '1338471136207322': '160101076',
-        '1653617614727730': '150101031',
-        '1852825864791150': '150103085',
-        '1950480881646757': '170106029',
-        '1698196700203262': '150108045'
-    }
+# student_list = {    
+#         '1338471136207322': '160101076',
+#         '1653617614727730': '150101031',
+#         '1852825864791150': '150103085',
+#         '1950480881646757': '170106029',
+#         '1698196700203262': '150108045'
+#     }
 
 @app.route("/complexshit")
 def hello():
@@ -55,7 +55,28 @@ def test():
     }
 
     intent_name = req.get("result").get("metadata").get("intentName");
-    if intent_name == "specific-course-location":
+
+    sender_id = req.get("originalRequest").get("data").get("sender").get("id")
+
+    if intent_name == "register":
+        res = register(req,res)
+    elif intent_name == "delete":
+        res = delete(req,res)
+
+    if get_roll_number(sender_id) == "":
+
+        out_string = "You're not registered.\nPlease register by using command\n"
+        out_string+= "Register <Roll_number>\n Example: register 150101001"
+
+        return {
+            "speech": out_string,
+            "displayText": out_string,
+            #"data": {},
+            # "contextOut": [],
+            "source": "IITG-Student-Buddy"
+        }
+
+    elif intent_name == "specific-course-location":
         res = get_location(req,res)
     elif intent_name == "exam-timings":
         res = get_exam_timings(req,res)
@@ -76,6 +97,159 @@ def test():
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
+
+def check_if_valid_roll(roll_number):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    query = "SELECT roll_number FROM cwsl WHERE roll_number = " + roll_number + ";"
+
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+
+    if len(data) == 0:
+        return "INVALID"
+    else:
+        return "VALID"
+
+def register(req,res):
+
+    out_string = ""
+
+    sender_id = req.get("originalRequest").get("data").get("sender").get("id")
+
+    roll_number = req.get("result").get("parameters").get("course_id")
+
+    validity = check_if_valid_roll(roll_number)
+
+    if validity == "INVALID":
+
+        out_string += "Enter a valid ID number. Try again"
+
+        return {
+            "speech": out_string,
+            "displayText": out_string,
+            #"data": {},
+            # "contextOut": [],
+            "source": "IITG-Student-Buddy"
+        }
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    query = "SELECT roll_number FROM student_list WHERE facebook_id = " + sender_id + ";"
+
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+
+    if len(data) != 0:
+
+        out_string += "This Facebook ID is already registered to the roll number " + data[0] + "\n"
+        out_string += "To change the roll number, first delete the previous entry and then register. \n"
+        out_string += "To delete use the command Delete <Roll Number> Ex: Delete 150101001"
+
+        return {
+            "speech": out_string,
+            "displayText": out_string,
+            #"data": {},
+            # "contextOut": [],
+            "source": "IITG-Student-Buddy"
+        }
+
+    conn_2 = mysql.connect()
+    cursor_2 = conn_2.cursor()
+
+    query_2 = "INSERT INTO student_list VALUES (" + roll_number + "," + sender_id + ");"
+
+    cursor_2.execute(query_2)
+
+    out_string += "Successfully Registered.\nHi, I am Student Buddy.\n Your Virtual Assistant in campus\n"
+    out_string += "We are in Beta right now. \nPlese give feedback by sending a message to Kushal K S V S\n"
+
+    return {
+        "speech": out_string,
+        "displayText": out_string,
+        #"data": {},
+        # "contextOut": [],
+        "source": "IITG-Student-Buddy"
+    }
+
+def delete(req,res):
+
+    out_string = ""
+
+    sender_id = req.get("originalRequest").get("data").get("sender").get("id")
+
+    roll_number = req.get("result").get("parameters").get("course_id")
+
+    validity = check_if_valid_roll(roll_number)
+
+    if validity == "INVALID":
+
+        out_string += "Enter a valid ID number. Try again"
+
+        return {
+            "speech": out_string,
+            "displayText": out_string,
+            #"data": {},
+            # "contextOut": [],
+            "source": "IITG-Student-Buddy"
+        }
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    query = "SELECT roll_number FROM student_list WHERE facebook_id = " + sender_id + " AND roll_number = " + roll_number + ";"
+
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+
+    if len(data) == 0:
+
+        out_string += "Not Permitted. Use the ID registered with this Facebook Account\n"
+
+        return {
+            "speech": out_string,
+            "displayText": out_string,
+            #"data": {},
+            # "contextOut": [],
+            "source": "IITG-Student-Buddy"
+        }
+
+    conn_2 = mysql.connect()
+    cursor_2 = conn_2.cursor()
+
+    query_2 = "DELETE FROM student_list WHERE facebook_id = " + sender_id + ";"
+
+    cursor_2.execute(query_2)
+
+    out_string += "Successfully Deleted.\n"
+    out_string += "To register, Type Register <Roll Number>\n"
+    out_string += "We are in Beta right now. \nPlese give feedback by sending a message to Kushal K S V S\n"
+
+    return {
+        "speech": out_string,
+        "displayText": out_string,
+        #"data": {},
+        # "contextOut": [],
+        "source": "IITG-Student-Buddy"
+    }
+
+def get_roll_number(sender_id):
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    query = "SELECT roll_number FROM student_list WHERE facebook_id = " + sender_id + ";"
+
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+
+    return data[0]
 
 def get_week_day(diff):
     week_day_dict = {'0':'MON', '1':'TUE', '2':'WED', '3':'THU', '4':'FRI', '5':'SAT', '6':'SUN'}
@@ -115,7 +289,7 @@ def get_schedule_specific_day(req,res):
 
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
 
-    roll_no = student_list[sender_id]
+    roll_no = get_roll_number(sender_id)
 
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -177,7 +351,8 @@ def get_specific_course_nfl(req,res):
 
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
 
-    roll_no = student_list[sender_id]
+    roll_no = get_roll_number(sender_id)
+
     hour = datetime.datetime.now().hour
 
     hour = str(hour)
@@ -253,7 +428,8 @@ def get_class_timings_nfl(req,res):
 
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
 
-    roll_no = student_list[sender_id]
+    roll_no = get_roll_number(sender_id)
+
     hour = datetime.datetime.now().hour
 
     hour = str(hour)
