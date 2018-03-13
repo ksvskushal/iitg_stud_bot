@@ -536,7 +536,7 @@ def get_location(req,res):
             out_string+= x[0] + "  - " + x[1] + "\n"
     else:
         data = data[0]
-        out_string += "The Class is in " + out_string
+        out_string += "The Class is in " + str(data[0])
 
     return {
         "speech": out_string,
