@@ -274,9 +274,7 @@ def get_roll_number(sender_id):
 
     cursor = conn.close()
 
-    data = str(data)
-
-    print (data) #debugging
+    data = str(data[0][0])
 
     return data
 
