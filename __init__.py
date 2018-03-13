@@ -179,7 +179,7 @@ def register(req,res):
     cursor = conn.cursor()
 
     print (roll_number)
-    print (sender_id)
+    print (sender)
 
     query = "INSERT INTO student_list VALUES (" + roll_number + "," + sender_id + ");"
 
