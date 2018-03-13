@@ -175,17 +175,17 @@ def register(req,res):
             "source": "IITG-Student-Buddy"
         }
 
-    print ("k\n"); #debugging
     conn = mysql.connect()
     cursor = conn.cursor()
-    print ("kk\n"); #debugging
+
+    print (roll_number)
+    print (sender_id)
+
     query = "INSERT INTO student_list VALUES (" + roll_number + "," + sender_id + ");"
 
     cursor.execute(query)
 
     data = cursor.fetchall() #debugging
-
-    print (str(data)) #debugging
 
     out_string += "Successfully Registered.\nHi, I am Student Buddy.\nYour Virtual Assistant in campus\n"
     out_string += "We are in Beta right now.\nPlese give feedback \n- Kushal K S V S"
