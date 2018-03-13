@@ -179,8 +179,8 @@ def register(req,res):
 
     cursor_2.execute(query_2)
 
-    out_string += "Successfully Registered.\nHi, I am Student Buddy.\n Your Virtual Assistant in campus\n"
-    out_string += "We are in Beta right now. \nPlese give feedback by sending a message to Kushal K S V S\n"
+    out_string += "Successfully Registered.\nHi, I am Student Buddy.\nYour Virtual Assistant in campus\n"
+    out_string += "We are in Beta right now.\nPlese give feedback \n- Kushal K S V S"
 
     return {
         "speech": out_string,
