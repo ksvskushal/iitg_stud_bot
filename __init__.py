@@ -120,7 +120,7 @@ def register(req,res):
 
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
 
-    roll_number = req.get("result").get("parameters").get("course_id")
+    roll_number = req.get("result").get("parameters").get("roll_number")
 
     validity = check_if_valid_roll(roll_number)
 
@@ -183,7 +183,7 @@ def delete(req,res):
 
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
 
-    roll_number = req.get("result").get("parameters").get("course_id")
+    roll_number = req.get("result").get("parameters").get("roll_number")
 
     validity = check_if_valid_roll(roll_number)
 
@@ -250,9 +250,9 @@ def get_roll_number(sender_id):
 
     data = cursor.fetchall()
 
-    print (data) #debugging
-
     data = str(data)
+
+    print (data) #debugging
 
     return data
 
