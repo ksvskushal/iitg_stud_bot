@@ -486,7 +486,18 @@ def get_class_timings_nfl(req,res):
     # data = data[0][0]
     print(data)
 
+    if len(data) == 0:
+        out_string += "No classes left for today. \nIf needed ask for tomorrow's time-table\n"
+        return {
+            "speech": out_string,
+            "displayText": out_string,
+            #"data": {},
+            # "contextOut": [],
+            "source": "IITG-Student-Buddy"
+        }    
+
     temp = data[0]
+
         # out_list = json.dumps(data)
     out_string += "You have " + temp[0] + " from " + temp[1] + " in " + temp[2] + "\n"
 
