@@ -248,6 +248,9 @@ def delete(req,res):
     query_2 = "DELETE FROM student_list WHERE facebook_id = " + sender_id + ";"
 
     cursor_2.execute(query_2)
+    conn_2.commit()
+
+    conn_2.close()
 
     out_string += "Successfully Deleted.\n"
     out_string += "To register, Type Register <Roll Number>\n"
