@@ -78,7 +78,7 @@ def test():
 
     roll = get_roll_number(sender_id)
 
-    if len(roll) != 9:
+    if len(roll) < 9:
 
         out_string = "You're not registered.\nPlease register by using command\n"
         out_string+= "Register <Roll_number>\n Example: register 150101001"
@@ -121,6 +121,7 @@ def check_if_valid_roll(roll_number):
     cursor.execute(query)
 
     data = cursor.fetchall()
+    cursor = conn.close()
 
     if len(data) == 0:
         return "INVALID"
@@ -158,6 +159,8 @@ def register(req,res):
 
     data = cursor.fetchall()
 
+    cursor = conn.close()
+
     if len(data) != 0:
 
         out_string += "This Facebook ID is already registered to the roll number " + data[0] + "\n"
@@ -172,12 +175,12 @@ def register(req,res):
             "source": "IITG-Student-Buddy"
         }
 
-    conn_2 = mysql.connect()
-    cursor_2 = conn_2.cursor()
+    conn = mysql.connect()
+    cursor = conn.cursor()
 
-    query_2 = "INSERT INTO student_list VALUES (" + roll_number + "," + sender_id + ");"
+    query = "INSERT INTO student_list VALUES (" + roll_number + "," + sender_id + ");"
 
-    cursor_2.execute(query_2)
+    cursor.execute(query)
 
     out_string += "Successfully Registered.\nHi, I am Student Buddy.\nYour Virtual Assistant in campus\n"
     out_string += "We are in Beta right now.\nPlese give feedback \n- Kushal K S V S"
@@ -221,6 +224,8 @@ def delete(req,res):
 
     data = cursor.fetchall()
 
+    cursor = conn.close()
+
     if len(data) == 0:
 
         out_string += "Not Permitted. Use the ID registered with this Facebook Account\n"
@@ -262,6 +267,8 @@ def get_roll_number(sender_id):
     cursor.execute(query)
 
     data = cursor.fetchall()
+
+    cursor = conn.close()
 
     data = str(data)
 
@@ -317,6 +324,8 @@ def get_schedule_specific_day(req,res):
     cursor.execute(query)
 
     data = cursor.fetchall()
+
+    cursor = conn.close()
     # data = data[0][0]
     print(data)
     print(len(data))
@@ -394,6 +403,8 @@ def get_specific_course_nfl(req,res):
     cursor.execute(query)
 
     data = cursor.fetchall()
+
+    cursor = conn.close()
     # data = data[0][0]
     print(data)
     print(len(data))
@@ -469,6 +480,7 @@ def get_class_timings_nfl(req,res):
     cursor.execute(query)
 
     data = cursor.fetchall()
+    cursor = conn.close()
     # data = data[0][0]
     print(data)
 
@@ -503,6 +515,7 @@ def get_location(req,res):
     cursor.execute(query)
 
     data = cursor.fetchall()
+    cursor = conn.close()
 
     if week_day == "SAT" or week_day == "SUN":
         out_string+= "Day  Room\n"
@@ -595,6 +608,7 @@ def get_exam_timings(req,res):
     cursor.execute(query)
 
     data = cursor.fetchall()
+    cursor = conn.close()
     # data = data[0][0]
     print(data)
     if data:
