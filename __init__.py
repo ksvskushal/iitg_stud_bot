@@ -185,7 +185,9 @@ def register(req,res):
 
     cursor.execute(query)
 
-    data = cursor.fetchall() #debugging
+    conn.commit()
+    
+    cursor = conn.close()
 
     out_string += "Successfully Registered.\nHi, I am Student Buddy.\nYour Virtual Assistant in campus\n"
     out_string += "We are in Beta right now.\nPlese give feedback \n- Kushal K S V S"
