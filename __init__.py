@@ -63,7 +63,7 @@ def test():
     elif intent_name == "delete":
         res = delete(req,res)
 
-    if len(get_roll_number(sender_id)) == 0:
+    if get_roll_number(sender_id) == "":
 
         out_string = "You're not registered.\nPlease register by using command\n"
         out_string+= "Register <Roll_number>\n Example: register 150101001"
@@ -249,7 +249,9 @@ def get_roll_number(sender_id):
 
     data = cursor.fetchall()
 
-    return data[0]
+    print (data) # debugging
+
+    return data
 
 def get_week_day(diff):
     week_day_dict = {'0':'MON', '1':'TUE', '2':'WED', '3':'THU', '4':'FRI', '5':'SAT', '6':'SUN'}
