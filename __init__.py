@@ -53,7 +53,7 @@ def test():
         "displayText": "Failed!",
         "source": "IITG-Student-Buddy"
     }
-    print ("FUCK 1")
+
     intent_name = req.get("result").get("metadata").get("intentName");
 
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
@@ -62,10 +62,9 @@ def test():
         res = register(req,res)
     elif intent_name == "delete":
         res = delete(req,res)
-    print ("FUCK 2")
+
     roll = get_roll_number(sender_id)
 
-    print ("FUCK 3")
     if len(roll) != 9:
 
         out_string = "You're not registered.\nPlease register by using command\n"
@@ -78,7 +77,6 @@ def test():
             # "contextOut": [],
             "source": "IITG-Student-Buddy"
         }
-    print ("FUCK 4")
     elif intent_name == "specific-course-location":
         res = get_location(req,res)
     elif intent_name == "exam-timings":
